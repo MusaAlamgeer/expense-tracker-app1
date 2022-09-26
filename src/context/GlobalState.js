@@ -18,9 +18,30 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState)
 
+    //6. Actions
+    //in order to use this action we need send it to provider for other components
+    function deleteTransaction(id) {
+        dispatch({
+            type: 'DELETE_TRANSACTION',
+            payload: id
+        });
+    }
+
+    function addTransaction(transaction) {
+        console.log("Reached addTransaction")
+        console.log(transaction)
+
+        dispatch({
+            type: 'ADD_TRANSACTION',
+            payload: transaction
+        });
+    }
+
     return (
         <GlobalContext.Provider value={{
-            transactions: state.transactions
+            transactions: state.transactions,
+            deleteTransaction,
+            addTransaction
         }}>
             {children}
         </GlobalContext.Provider>
